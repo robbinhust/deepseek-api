@@ -23,3 +23,9 @@ DELETE_CHAT_SS_EP   = "/api/v0/chat_session/delete"         # Delete chat sessio
 CREATE_SESSION_EP   = "/api/v0/chat_session/create"         # Create chat session (new conversation) endpoint
 FETCH_CHAT_HIS_EP   = "/api/v0/chat/history_messages"       # Get chat history endpoint
 CREATE_CHALLENGE_EP = "/api/v0/chat/create_pow_challenge"   # Create challenge endpoint
+
+
+class FileStatus:
+    SUCCESS       = "SUCCESS"
+    PENDING       = "PENDING"
+    CONTENT_EMPTY = "CONTENT_EMPTY"

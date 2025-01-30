@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="py-deepseek-api",
-    version="1.0.1",
+    version="1.0.2",
     author="robbinhust",
     description="Unoffical DeepSeek API for Python",
     long_description=open("README.md").read(),

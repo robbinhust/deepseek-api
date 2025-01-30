@@ -124,6 +124,19 @@ class DeepSeekApi:
         return None
 
     def login(self, email, password):
+        """
+        Log in to the DeepSeek using email and password.
+
+        Args:
+            email (str): The user's email.
+            password (str): The user's password.
+
+        Returns:
+            str: The authorization token if login is successful.
+
+        Raises:
+            ValueError: If login fails.
+        """
         device_id = self._register_device()
         
         if not device_id:
@@ -232,6 +245,18 @@ class DeepSeekApi:
         return True
     
     def upload_file(self, file_path):
+        """
+        Upload a file to the server.
+
+        Args:
+            file_path (str): The path to the file to upload.
+
+        Returns:
+            str: The file ID if the upload is successful, None otherwise.
+
+        Raises:
+            ValueError: If the file does not exist or is of an unsupported format.
+        """
         self.__check_login()
         
         if not check_file_exist(file_path):
@@ -270,6 +295,18 @@ class DeepSeekApi:
             return response_json.get("data", {}).get("biz_data", {}).get("id")
 
     def fetch_file(self, file_id):
+        """
+        Fetch the status of a file using its file ID.
+
+        Args:
+            file_id (str): The ID of the file to fetch.
+
+        Returns:
+            str: The file status if the fetch is successful, None otherwise.
+        """
+            
+        self.__check_login()
+
         params = dict(
             file_ids=file_id
         )
@@ -277,7 +314,8 @@ class DeepSeekApi:
         response = make_request(
             method="GET",
             url=BASE_API + FETCH_FILE_EP,
-            params=params
+            params=params,
+            headers=self.headers
         )
 
         check_response(response)
@@ -289,6 +327,12 @@ class DeepSeekApi:
                 return SafeDict(files_info[0]).get("status")
 
     def fetch_chat_session(self):
+        """
+        Fetch a list of chat sessions for the user.
+
+        Returns:
+            list: A list of chat sessions if successful, an empty list otherwise.
+        """
         self.__check_login()
 
         response = make_request(
@@ -305,6 +349,15 @@ class DeepSeekApi:
             return response_json.get("data", {}).get("biz_data", {}).get("chat_sessions", [])
 
     def fetch_chat_history(self, chat_session_id):
+        """
+        Fetch the chat history for a given chat session ID.
+
+        Args:
+            chat_session_id (str): The ID of the chat session to fetch history for.
+        
+        Returns:
+            tuple: A tuple containing the session title, current message ID, and list of chat messages.
+        """
         self.__check_login()
 
         params = dict(
@@ -336,6 +389,15 @@ class DeepSeekApi:
         return title, current_message_id, chat_messages
 
     def create_session(self):
+        """
+        Create a new chat session for the user.
+
+        Returns:
+            str: The chat session ID if creation is successful.
+        
+        Raises:
+            ValueError: If the user is muted.
+        """
         self.__check_login()
 
         if self.is_muted:
@@ -358,6 +420,15 @@ class DeepSeekApi:
             return response_json.get("data", {}).get("biz_data", {}).get("id")
 
     def delete_session(self, chat_session_id):
+        """
+        Delete an existing chat session.
+
+        Args:
+            chat_session_id (str): The ID of the chat session to delete.
+        
+        Returns:
+            bool: True if deletion is successful, False otherwise.
+        """
         self.__check_login()
 
         data = json.dumps({"chat_session_id": chat_session_id})
@@ -384,6 +455,23 @@ class DeepSeekApi:
         thinking_enabled=False,
         search_enabled=False,
     ):
+        """
+        Complete a conversation by sending a prompt to the chat service.
+
+        Args:
+            chat_session_id (str): The ID of the chat session to interact with.
+            prompt (str): The user prompt to send to the service.
+            parent_message_id (str, optional): The ID of the parent message if any.
+            ref_file_ids (list, optional): List of file IDs to reference in the conversation.
+            thinking_enabled (bool, optional): Whether thinking mode is enabled.
+            search_enabled (bool, optional): Whether search mode is enabled.
+        
+        Returns:
+            generator: Yields response messages from the service.
+        
+        Raises:
+            ValueError: If the user is muted.
+        """
         self.__check_login()
 
         if self.is_muted:

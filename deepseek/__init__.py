@@ -1,11 +1,12 @@
-from ._api  import DeepSeekApi
-from ._chat import Conversation
-
+from ._api   import DeepSeekApi
+from ._chat  import Conversation
+from ._const import FileStatus
 __all__ = [
     "DeepSeekApi",
-    "Conversation"
+    "Conversation",
+    "FileStatus"
 ]
 
 
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 
