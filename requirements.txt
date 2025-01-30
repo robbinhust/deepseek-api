@@ -1,0 +1,5 @@
+requests>=2.32.3
+safe-dict>=1.0.3
+wasmtime>=29.0.0
+pycryptodome>=3.21.0
+
