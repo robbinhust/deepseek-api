@@ -28,4 +28,5 @@ CREATE_CHALLENGE_EP = "/api/v0/chat/create_pow_challenge"   # Create challenge e
 class FileStatus:
     SUCCESS       = "SUCCESS"
     PENDING       = "PENDING"
+    PARSING       = "PARSING"
     CONTENT_EMPTY = "CONTENT_EMPTY"

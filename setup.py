@@ -2,12 +2,12 @@ from setuptools import setup, find_packages
 
 setup(
     name="py-deepseek-api",
-    version="1.0.2",
+    version="1.0.3",
     author="robbinhust",
     description="Unoffical DeepSeek API for Python",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
-    url="https://github.com/robbinhust/py-deepseek-api",
+    url="https://github.com/robbinhust/deepseek-api",
     packages=find_packages(),
     package_data={
         "deepseek.utils": ["sign.wasm"],
